@@ -5,8 +5,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
     site: 'https://www.vladis.xyz',
     output: "static",
-    // TODO: Maybe use compressHTML: false ?
-    build: {
-        assets: '.'
-    },
+    compressHTML: false
 });
