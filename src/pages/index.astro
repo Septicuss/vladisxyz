@@ -27,6 +27,11 @@ const config: ResumeConfig = {
             name: "SpeedSilver Limited",
             role: "Server Developer",
             time: "November 2022 - February 2023"
+        },
+        {
+            name: "Puolustusvoimat",
+            role: "Kirjuri",
+            time: "January 2024 - July 2024"
         }
     ],
     links: {
@@ -71,7 +76,8 @@ const config: ResumeConfig = {
             <div id="links" class="card">
                 <span class="card-title">Links</span>
                 {Object.entries(config.links).map((value) => (
-                        <a class="link" title=`Link to my page on ${value[0]}` target="_blank" href={value[1]}>{value[0]}</a>
+                        <a class="link" title=`Link to my page on ${value[0]}` target="_blank"
+                           href={value[1]}>{value[0]}</a>
                 ))}
             </div>
 
@@ -82,8 +88,6 @@ const config: ResumeConfig = {
 </Layout>
 
 <style>
-
-
 
     * {
         font-family: monospace;
@@ -137,7 +141,6 @@ const config: ResumeConfig = {
 
                     & .time {
                         margin-left: auto;
-                        color: var(--subtitle);
                     }
 
                 }
@@ -162,6 +165,7 @@ const config: ResumeConfig = {
         h1 {
             margin-bottom: 0;
         }
+
         #aka {
             color: var(--subtitle);
         }
@@ -203,4 +207,23 @@ const config: ResumeConfig = {
         background-clip: text;
         margin: 0;
     }
+
+    @media only screen and (max-width: 380px) {
+        #work {
+            & .experiences {
+
+                & .experience {
+                    & .experience-title {
+                        flex-direction: column;
+
+                        & .time {
+                            margin-left: unset;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 </style>
