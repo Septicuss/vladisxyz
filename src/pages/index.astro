@@ -1,18 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+interface Link {
+    name: string,
+    url: string
+}
+
 interface WorkExperience {
     name: string,
     role: string,
     time: string
 }
 
+interface Project {
+    name: string,
+    description: string,
+    time: string,
+    links: { [key: string]: string }
+}
+
 interface ResumeConfig {
     headline: string,
     workExperience: WorkExperience[],
-    links: {
-        [key: string]: string
-    }
+    projects: Project[],
+    links: { [key: string]: string }
 }
 
 const config: ResumeConfig = {
@@ -21,17 +32,23 @@ const config: ResumeConfig = {
         {
             name: "Vyce Games",
             role: "Java Developer",
-            time: "July 2024 - September 2024"
+            time: "July 2024 - September 2024",
         },
         {
             name: "SpeedSilver Limited",
             role: "Server Developer",
             time: "November 2022 - February 2023"
         },
+    ],
+    projects: [
         {
-            name: "Puolustusvoimat",
-            role: "Kirjuri",
-            time: "January 2024 - July 2024"
+            name: "Tooltips",
+            description: "Premium Minecraft plugin with 170+ sales",
+            time: "May 2024 - Now",
+            links: {
+                GitHub: "https://github.com/Septicuss/tooltips",
+                "Spigot (Requires an account)": "https://spigotmc.org/resources/109912",
+            }
         }
     ],
     links: {
@@ -59,11 +76,11 @@ const config: ResumeConfig = {
             </div>
 
             <div id="work" class="card">
-                <span class="card-title">Work</span>
-                <ul class="experiences">
+                <span class="title">Work</span>
+                <ul class="list">
                     {config.workExperience.map((item) => (
-                            <li class="experience">
-                                <div class="experience-title">
+                            <li class="element">
+                                <div class="work-experience">
                                     <p class="title">{item.name}</p>
                                     <p class="time">{item.time}</p>
                                 </div>
@@ -71,6 +88,29 @@ const config: ResumeConfig = {
                             </li>
                     ))}
                 </ul>
+            </div>
+
+            <div id="projects" class="card">
+                <span class="title">Projects</span>
+                <ul class="list">
+                    {config.projects.map((item) => (
+                        <li class="element">
+                            <div class="project">
+                                <p class="time">{item.time}</p>
+                                <p class="title">{item.name} - <span class="description">{item.description}</span></p>
+                            </div>
+                            <ul class="project-links">
+                                {Object.entries(item.links).map((entry) => (
+                                    <li class="link">
+                                        - <a target="_blank" href=`${entry[1]}`>{entry[0]}</a>
+                                    </li>
+                                ))}
+                            </ul>
+
+                        </li>
+                    ))}
+                </ul>
+
             </div>
 
             <div id="links" class="card">
@@ -95,6 +135,10 @@ const config: ResumeConfig = {
         --subtitle: darkgray;
     }
 
+    ul {
+        padding-inline-start: 0;
+    }
+
     .card {
         width: 100%;
         padding: 0.6rem;
@@ -106,8 +150,25 @@ const config: ResumeConfig = {
         outline: 1px solid #1f1f1f;
         overflow: hidden;
 
-        & .card-title {
+        & .title {
             color: #5c5c5c;
+        }
+
+        & .list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-top: 0.3rem;
+
+            & .element {
+                display: flex;
+                flex-direction: column;
+                color: var(--subtitle);
+
+                & .title {
+                    color: var(--title);
+                }
+            }
         }
 
         & p {
@@ -116,40 +177,28 @@ const config: ResumeConfig = {
 
     }
 
+    #projects {
+        & .project {
+            & .description {
+                font-style: italic;
+            }
+        }
+    }
+
     #work {
-
-        & .experiences {
+        & .work-experience {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding-top: 0.3rem;
-            padding-inline-start: 0;
+            text-wrap: nowrap;
 
-            & .experience {
-                display: flex;
-                flex-direction: column;
-                color: var(--subtitle);
+            & .title {
+                color: var(--title);
+            }
 
-                & .experience-title {
-                    display: flex;
-                    text-wrap: nowrap;
-
-
-                    & .title {
-                        color: var(--title);
-                    }
-
-                    & .time {
-                        margin-left: auto;
-                    }
-
-                }
-
-
+            & .time {
+                margin-left: auto;
             }
 
         }
-
     }
 
     #links {
@@ -210,16 +259,11 @@ const config: ResumeConfig = {
 
     @media only screen and (max-width: 380px) {
         #work {
-            & .experiences {
+            & .work-experience {
+                flex-direction: column;
 
-                & .experience {
-                    & .experience-title {
-                        flex-direction: column;
-
-                        & .time {
-                            margin-left: unset;
-                        }
-                    }
+                & .time {
+                    margin-left: unset;
                 }
             }
         }
