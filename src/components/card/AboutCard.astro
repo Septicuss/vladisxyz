@@ -1,0 +1,13 @@
+---
+import Card from "./Card.astro";
+interface Props {
+    headline: string
+}
+
+const {headline} = Astro.props
+---
+
+<Card title="About">
+    <br>
+    <p set:html={headline}/>
+</Card>

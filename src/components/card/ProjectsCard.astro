@@ -1,0 +1,70 @@
+---
+import type {Project} from "../../types/ResumeTypes";
+import Card from "./Card.astro";
+
+interface Props {
+    projects: Project[]
+}
+
+const {projects} = Astro.props;
+---
+
+<Card title="Projects">
+    <ul class="list">
+        {projects.map((item) => (
+                <li class="element">
+
+                    <div class="project">
+                        <p class="time">{item.time}</p>
+                        <p class="title">{item.name} - <span class="description">{item.description}</span>
+                        </p>
+                    </div>
+
+                    <ul>
+                        {Object.entries(item.links).map((entry) => (
+                                <li>
+                                    - <a target="_blank" href=`${entry[1]}`>{entry[0]}</a>
+                                </li>
+                        ))}
+                    </ul>
+
+                </li>
+        ))}
+    </ul>
+
+</Card>
+
+<style>
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding-top: 0.3rem;
+
+        .element {
+            display: flex;
+            flex-direction: column;
+            color: var(--subtitle);
+
+            & .title {
+                color: var(--title);
+            }
+
+            .project {
+                .description {
+                    font-style: italic;
+                }
+            }
+
+        }
+    }
+
+    ul {
+        padding-inline-start: 0;
+    }
+
+    p {
+        margin-block: 0;
+    }
+</style>
